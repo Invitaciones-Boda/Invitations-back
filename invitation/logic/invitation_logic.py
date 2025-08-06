@@ -1,6 +1,7 @@
 from invitation.utils.response.build_response import build_response
 from invitation.firebase.firebase_init import db  # conexión a Firestore
 
+""" Logica ingreso con firebase  """
 def ingresarFirebase(codigo: str):
     if not codigo or codigo.strip() == "":
         return build_response("Error de integridad: No se recibió el código.", 400)
