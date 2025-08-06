@@ -19,3 +19,16 @@ def ingresarFirebase(codigo: str):
 
     except Exception as e:
         return build_response(f"Error al consultar Firestore: {str(e)}", 500)
+
+
+def confirmacionfunction(data: str):
+    if not data or data.strip() == "":
+        return build_response("Error de integridad: No se recibió la información.", 400)
+
+    try:
+        
+        return build_response("Datos recibidos", 200, data=data)
+
+
+    except Exception as e:
+        return build_response(f"Error: {str(e)}", 500)
