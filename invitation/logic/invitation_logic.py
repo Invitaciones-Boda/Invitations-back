@@ -1,3 +1,4 @@
+import json
 from invitation.utils.response.build_response import build_response
 from invitation.firebase.firebase_init import db  # conexión a Firestore
 
@@ -21,15 +22,37 @@ def ingresarFirebase(codigo: str):
     except Exception as e:
         return build_response(f"Error al consultar Firestore: {str(e)}", 500)
 
-
-def confirmacionfunction(data: str):
-    if not data or data.strip() == "":
+""" Logica confirmación de asistencia con firebase  """
+def confirmacionfunction(data: dict):
+    if not data:
         return build_response("Error de integridad: No se recibió la información.", 400)
 
     try:
-        
-        return build_response("Datos recibidos", 200, data=data)
+        codigo = data.get("codigo")
+        invitados_confirmados = data.get("invitados", [])
+        total_confirmados = data.get("confirmados", 0)
 
+        if not codigo or not isinstance(invitados_confirmados, list):
+            return build_response("Datos incompletos o inválidos.", 400)
+
+        # Obtener documento
+        doc_ref = db.collection("invitaciones").document(codigo)
+        doc = doc_ref.get()
+
+        if not doc.exists:
+            return build_response("Invitación no encontrada.", 404)
+
+        # Actualizar campos en Firestore.
+        doc_ref.update({
+            "Confirmados": total_confirmados,
+            "estadoConfirmacion": "confirmado",
+            "nombresConfirmados": invitados_confirmados 
+        })
+
+        return build_response("Asistencia confirmada correctamente.", 200, data={
+            "confirmados": total_confirmados,
+            "nombresConfirmados": invitados_confirmados
+        })
 
     except Exception as e:
-        return build_response(f"Error: {str(e)}", 500)
+        return build_response(f"Error inesperado: {str(e)}", 500)
