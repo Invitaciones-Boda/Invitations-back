@@ -42,7 +42,7 @@ def confirmacionfunction(data: dict):
         if not doc.exists:
             return build_response("Invitación no encontrada.", 404)
 
-        # Actualizar campos en Firestore
+        # Actualizar campos en Firestore.
         doc_ref.update({
             "Confirmados": total_confirmados,
             "estadoConfirmacion": "confirmado",
