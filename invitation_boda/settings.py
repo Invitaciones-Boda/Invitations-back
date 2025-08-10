@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-yb&=_aj)^$-ge7c^_nb3x@h_f^rsb58z0qd@w_qc(kb3%va889
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'https://invitaciones-nuestra-boda.vercel.app/']
 
 # Application definition
 
@@ -36,7 +36,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'corsheaders',# QUITAR
     'invitation_boda',
     'invitation',
 ]
